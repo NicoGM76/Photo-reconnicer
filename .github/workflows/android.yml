@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
     steps:
@@ -14,12 +15,18 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
+      # GitHub-hosted Ubuntu already includes an Android SDK. Avoid the
+      # obsolete "sdkmanager tools" invocation in setup-android@v3.
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+      - name: Verificar SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          test -d "$ANDROID_HOME"
+          ls "$ANDROID_HOME/platforms" || true
       - name: Build v1, v2 y v3
-        run: gradle :app:assembleV1Debug :app:assembleV2Debug :app:assembleV3Debug --stacktrace
+        run: bash ./gradlew :app:assembleV1Debug :app:assembleV2Debug :app:assembleV3Debug --stacktrace
       - uses: actions/upload-artifact@v4
         with:
           name: AnimalScan-APK-v1-v2-v3
