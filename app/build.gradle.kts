@@ -1,3 +1,5 @@
+import java.net.URL
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -36,7 +38,7 @@ val downloadAnimalModel = tasks.register("downloadAnimalModel") {
     doLast {
         if (!modelPath.exists() || modelPath.length() < 1000000L) {
             modelPath.parentFile.mkdirs()
-            val url = java.net.URI("https://storage.googleapis.com/mediapipe-models/image_classifier/efficientnet_lite0/int8/latest/efficientnet_lite0.tflite").toURL()
+            val url = URL("https://storage.googleapis.com/mediapipe-models/image_classifier/efficientnet_lite0/int8/latest/efficientnet_lite0.tflite")
             val conn = url.openConnection()
             conn.connectTimeout = 30000
             conn.readTimeout = 120000
