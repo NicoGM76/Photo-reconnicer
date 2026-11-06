@@ -38,7 +38,7 @@ class MainActivity : Activity() {
             setPadding(dp(24), dp(28), dp(24), dp(24))
             setBackgroundColor(Color.rgb(248, 250, 252))
         }
-        val scroll = ScrollView(this).apply { fillViewport = true; addView(root) }
+        val scroll = ScrollView(this).apply { isFillViewport = true; addView(root) }
         setContentView(scroll)
 
         addText(root, "AnimalScan 🐾", 30, Color.rgb(15, 23, 42), true)
